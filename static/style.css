@@ -1,4 +1,10 @@
 /* Canvas nền: đặt cố định phủ toàn màn hình và z-index thấp */
+audio {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100; /* Đảm bảo giá trị này cao hơn các phần tử khác */
+}
 canvas {
   display: block;
   position: fixed;
