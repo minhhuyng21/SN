@@ -1,0 +1,162 @@
+/* Canvas nền: đặt cố định phủ toàn màn hình và z-index thấp */
+canvas {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Gallery: đảm bảo hiển thị phía trên canvas */
+.gallery {
+  --d: 10s;
+  display: grid;
+  place-items: center; /* Căn giữa theo cả hai hướng */
+  width: 220px;
+  margin-left: 220px;
+  position: relative;
+  z-index: 2;
+}
+
+.gallery > img {
+  grid-area: 1/1;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 10px solid #f2f2f2;
+  box-shadow: 0 0 4px #0007;
+  z-index: 2;
+  animation: slide var(--d) infinite, z-order var(--d) infinite steps(1);
+}
+
+.gallery img:last-child {
+  animation-name: slide, z-order-last;
+}
+
+.gallery > img:nth-child(1) {
+  animation-delay: calc(0 * var(--d));
+  --r: 16deg;
+}
+
+.gallery > img:nth-child(2) {
+  animation-delay: calc(-0.2 * var(--d));
+  --r: -1deg;
+}
+
+.gallery > img:nth-child(3) {
+  animation-delay: calc(-0.4 * var(--d));
+  --r: -19deg;
+}
+
+.gallery > img:nth-child(4) {
+  animation-delay: calc(-0.6 * var(--d));
+  --r: 6deg;
+}
+
+.gallery > img:nth-child(5) {
+  animation-delay: calc(-0.8 * var(--d));
+  --r: -8deg;
+}
+
+@keyframes slide {
+  10% {
+    transform: translateX(120%) rotate(var(--r));
+  }
+  0%, 100%, 20% {
+    transform: translateX(0%) rotate(var(--r));
+  }
+}
+
+@keyframes z-order {
+  10%, 20% {
+    z-index: 1;
+  }
+  80% {
+    z-index: 2;
+  }
+}
+
+@keyframes z-order-last {
+  10%, 20% {
+    z-index: 1;
+  }
+  90% {
+    z-index: 2;
+  }
+}
+
+/* Body: sử dụng grid, đặt nền màu đen tối (không cần thiết nếu canvas phủ toàn màn hình) */
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  background: #020202;
+  cursor: crosshair;
+  place-content: center;
+  overflow: hidden;
+}
+
+/* Container chứa tiêu đề: hiển thị trên canvas */
+#hedlinecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Tiêu đề: có hiệu ứng shine, với z-index cao hơn */
+#shine {
+  font-size: 60px;
+  font-weight: bold;
+  color: rgba(255, 0, 102, 0.3);
+  z-index: 10;
+  background: -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)) 0 0 no-repeat;
+  -webkit-background-size: 150px;
+  -webkit-background-clip: text;
+  -webkit-animation-name: shine;
+  -webkit-animation-duration: 3s; /* Điều chỉnh thời gian nếu cần */
+  -webkit-animation-iteration-count: infinite;
+  text-shadow: 0 0px 0px rgba(233, 85, 189, 0.419);
+}
+
+@-webkit-keyframes shine {
+  0%, 10% {
+    background-position: -1000px;
+  }
+  20% {
+    background-position: top left;
+  }
+  90% {
+    background-position: top right;
+  }
+  100% {
+    background-position: 1000px;
+  }
+}
+
+/* Responsive cho màn hình nhỏ */
+@media only screen and (max-width: 600px) {
+  #shine {
+    font-size: 22px;
+  }
+  #hedlinecontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+  }
+  .gallery {
+    --d: 10s;
+    display: grid;
+    place-items: center;
+    width: 150px;
+    margin-left: 60px;
+    position: relative;
+    z-index: 2;
+  }
+}
